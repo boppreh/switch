@@ -54,6 +54,7 @@ applications = [Application('scheduler', 'schedule_notifier.pyw', 2340),
                 Application('doorman', 'doorman.pyw', 2345),
                 Application('pycalc', 'calc.pyw', 2346),
                 Application('gitstatus', 'gitstatus.pyw', 2347),
+                Application('dashboard', 'dashboard.pyw', 80),
                ]
 
 project_url_template = 'https://github.com/boppreh/{}.git'
