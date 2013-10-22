@@ -5,7 +5,8 @@ from requests import get, exceptions
 class Application(object):
     def __init__(self, project, executable, port):
         self.project = project
-        self.executable = executable
+        self.project_dir = path.join('..', self.project)
+        self.executable = path.join(self.project_dir, executable)
         self.port = port
 
     def is_running(self):
@@ -16,9 +17,7 @@ class Application(object):
             return False
 
     def exists(self):
-        project_dir = path.join('..', self.project)
-        executable = path.join(project_dir, self.executable)
-        return path.isdir(project_dir) and path.isfile(executable)
+        return path.isdir(self.project_dir) and path.isfile(self.executable)
 
 applications = [Application('scheduler', 'schedule_notifier.pyw', 2340),
                 Application('typist', 'typist.pyw', 2341),
@@ -30,6 +29,12 @@ applications = [Application('scheduler', 'schedule_notifier.pyw', 2340),
                 Application('gitstatus', 'gitstatus.pyw', 2347),
                ]
 
+project_url_template = 'https://github.com/boppreh/{}.git'
+
 if __name__ == '__main__':
+    from git import Repo
     for application in applications:
-        print application.project, application.is_running()
+        if not application.exists():
+            print application.project
+            project_url = project_url_template.format(application.project)
+            Repo.clone_from(project_url, application.project_dir)
