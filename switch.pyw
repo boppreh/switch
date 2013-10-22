@@ -73,6 +73,9 @@ def start_all():
 
 
 if __name__ == '__main__':
+    from tray import tray
+    tray('Switch', 'switch-medium.png')
+
     from simpleserver import serve
 
     get_services = {}
@@ -84,3 +87,5 @@ if __name__ == '__main__':
         get_services[application.project] = application.status
 
     serve(get_services, post_services, port=2348)
+
+    start_all()
