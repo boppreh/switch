@@ -1,7 +1,6 @@
 from subprocess import Popen as start
-from os import path
+from os import path, system
 from requests import get, exceptions
-from git import Repo
 
 class Application(object):
     def __init__(self, project, executable, port):
@@ -33,7 +32,7 @@ class Application(object):
 
     def install(self):
         project_url = project_url_template.format(application.project)
-        Repo.clone_from(project_url, application.project_dir)
+        system('git clone {} "{}"'.format(project_url, application.project_dir))
 
     def status(self):
         if self.is_started():
@@ -54,7 +53,7 @@ applications = [Application('scheduler', 'schedule_notifier.pyw', 2340),
                 Application('doorman', 'doorman.pyw', 2345),
                 Application('pycalc', 'calc.pyw', 2346),
                 Application('gitstatus', 'gitstatus.pyw', 2347),
-                Application('dashboard', 'dashboard.pyw', 80),
+                Application('dashboard', 'dashboard.pyw', 4000),
                ]
 
 project_url_template = 'https://github.com/boppreh/{}.git'
@@ -69,7 +68,7 @@ def start_all():
 
     for application in applications:
         if not application.is_running():
-            print 'Starting', application.project
+            print('Starting', application.project, sep='')
             application.start()
 
 
@@ -89,4 +88,4 @@ if __name__ == '__main__':
 
     serve(get_services, post_services, port=2348)
 
-    start_all()
+    #start_all()
