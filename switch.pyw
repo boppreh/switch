@@ -88,4 +88,4 @@ if __name__ == '__main__':
 
     serve(get_services, post_services, port=2348)
 
-    #start_all()
+    start_all()
